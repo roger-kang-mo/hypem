@@ -1,3 +1,3 @@
-class HypemUser > ActiveRecord::Base
+class HypemUser < ActiveRecord::Base
 
 end
