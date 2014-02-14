@@ -28,13 +28,23 @@ $ ->
       currentLibraryPage += 1
       queryLibrary(currentLibraryPage)
 
-    $('#submit-username').click ->
+    $("#query-form").submit (e) ->
+      e.stopPropagation()
+      e.preventDefault()
       userName = userNameField.val()
+      queryUsername(userName)
 
-      if hasPage(userName)
-        openUsernamePage(userName)
+    # $('#submit-username').click ->
+    #   e.stopPropagation()
+    #   e.preventDefault()
+    #   userName = userNameField.val()
+    #   queryUsername(userName)
+
+    queryUsername = (username) ->
+      if hasPage(username)
+        openUsernamePage(username)
       else
-        data = { username: userName }
+        data = { username: username }
         $.ajax
           url: '/get_tracks'
           data: data
