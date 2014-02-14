@@ -7,6 +7,7 @@ $ ->
     userName = userNameField.val()
     usersDropdown = $('#user-dropdown')
     messageDisplay = $('#message-display')
+    loaderIcon = $('.loader-img')
     currentLibraryPage = 0
 
     $(document).on 'click', '.disabled', (e) ->
@@ -28,19 +29,26 @@ $ ->
       currentLibraryPage += 1
       queryLibrary(currentLibraryPage)
 
+    $(document).on 'mouseover', '.track-row', (e) ->
+      trackRow = $(e.target)
+      trackRow = trackRow.parent('.track-row') if trackRow.parent(".track-row")
+      trackRow.addClass('on-hover')
+
+    $(document).on 'mouseleave', '.track-row', (e) ->
+      trackRow = $(e.target)
+      trackRow = trackRow.parent('.track-row') if trackRow.parent(".track-row")
+      trackRow.removeClass('on-hover')
+
+
+
     $("#query-form").submit (e) ->
       e.stopPropagation()
       e.preventDefault()
       userName = userNameField.val()
       queryUsername(userName)
 
-    # $('#submit-username').click ->
-    #   e.stopPropagation()
-    #   e.preventDefault()
-    #   userName = userNameField.val()
-    #   queryUsername(userName)
-
     queryUsername = (username) ->
+      showLoader()
       if hasPage(username)
         openUsernamePage(username)
       else
@@ -55,8 +63,11 @@ $ ->
             updateDropdown()
           error: (data) ->
             showError(JSON.parse(data.responseText).error)
+          complete: ->
+            hideLoader()
 
     queryLibrary = (page) ->
+      showLoader()
       data = { page: page}
       $.ajax
         url: '/get_library'
@@ -68,6 +79,14 @@ $ ->
         error: (data) ->
           console.log data
           showError(JSON.parse(data.responseText).error)
+        complete: ->
+          hideLoader()
+
+    showLoader = () ->
+      loaderIcon.show()
+
+    hideLoader = () ->
+      loaderIcon.hide()
 
     showError = (error) ->
       messageDisplay.text(error)
@@ -105,7 +124,7 @@ $ ->
         else
           downloadLink = "<a href='' class='disabled' disabled='disabled'><span class='glyphicon glyphicon-ban-circle'/> Unavailable</a>"
 
-        pageHtml += "<tr><td>#{v.song}</td><td>#{v.artist}</td><td>#{downloadLink}</td></tr>"
+        pageHtml += "<tr class='track-row'><td>#{v.song}</td><td>#{v.artist}</td><td>#{downloadLink}</td></tr>"
 
       pageHtml += "</table></div>" unless isPaginated
 
