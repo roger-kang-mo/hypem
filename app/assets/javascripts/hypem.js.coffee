@@ -38,7 +38,6 @@ $ ->
       sourceUrl = targetElem.data('source')
       audioPlayer.attr('src', sourceUrl)
       audioPlayer.load().trigger('play')
-      $('.play-pause').click()
 
     $(document).on 'click', '.show-more', ->
       currentLibraryPage += 1
