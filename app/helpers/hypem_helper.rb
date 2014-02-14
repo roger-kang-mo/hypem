@@ -6,6 +6,7 @@ module HypemHelper
   SOURCE_URL = "http://hypem.com/serve/source/"
 
   def get_songs_for_user(username)
+    return_data = {}
     @username = username
     @mechanize = Mechanize.new { |agent|
       agent.user_agent_alias = 'Mac Safari'
@@ -15,11 +16,17 @@ module HypemHelper
     dest_url = "http://hypem.com/#{username}?ax=1"
     track_list = []
 
-    pages.concat get_pages()
+    begin
+      pages.concat get_pages()
 
-    track_list = pages.map { |p| get_songs_for_page("http://hypem.com/#{@username}#{p}?ax=1") }
+      track_list = pages.map { |p| get_songs_for_page("http://hypem.com/#{@username}#{p}?ax=1") }
 
-    track_list.flatten
+      return_data = track_list.flatten
+    rescue Exception => e
+      return_data[:error] = "Couldn't retrieve songs. User may not exist"
+    end
+
+    return_data
   end
 
   def get_songs_for_page(url)
