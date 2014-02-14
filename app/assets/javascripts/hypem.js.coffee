@@ -29,18 +29,6 @@ $ ->
       currentLibraryPage += 1
       queryLibrary(currentLibraryPage)
 
-    $(document).on 'mouseover', '.track-row', (e) ->
-      trackRow = $(e.target)
-      trackRow = trackRow.parent('.track-row') if trackRow.parent(".track-row")
-      trackRow.addClass('on-hover')
-
-    $(document).on 'mouseleave', '.track-row', (e) ->
-      trackRow = $(e.target)
-      trackRow = trackRow.parent('.track-row') if trackRow.parent(".track-row")
-      trackRow.removeClass('on-hover')
-
-
-
     $("#query-form").submit (e) ->
       e.stopPropagation()
       e.preventDefault()
