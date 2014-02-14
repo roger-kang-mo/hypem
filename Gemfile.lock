@@ -29,6 +29,8 @@ GEM
       i18n (= 0.6.1)
       multi_json (~> 1.0)
     arel (3.0.3)
+    audiojs (0.1.2)
+      railties (>= 3.1)
     builder (3.0.4)
     coderay (1.0.9)
     coffee-rails (3.2.2)
@@ -141,6 +143,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  audiojs
   coffee-rails (~> 3.2.1)
   jquery-rails
   kaminari

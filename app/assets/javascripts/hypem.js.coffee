@@ -8,7 +8,15 @@ $ ->
     usersDropdown = $('#user-dropdown')
     messageDisplay = $('#message-display')
     loaderIcon = $('.loader-img')
+    showMoreButton = null
     currentLibraryPage = 0
+    audioPlayer = $('#audio-player')
+
+    audiojs.events.ready ->
+      as = audiojs.createAll()
+      audioPlayer = $('#audio-player')
+      volume = as[0]
+      volume.setVolume(0.5)
 
     $(document).on 'click', '.disabled', (e) ->
       e.stopPropagation()
@@ -24,6 +32,13 @@ $ ->
         $('#library-page').show()
       else
         queryLibrary(0)
+
+    $(document).on 'click', '.listen', (e) ->
+      targetElem = $(e.target)
+      sourceUrl = targetElem.data('source')
+      audioPlayer.attr('src', sourceUrl)
+      audioPlayer.load().trigger('play')
+      $('.play-pause').click()
 
     $(document).on 'click', '.show-more', ->
       currentLibraryPage += 1
@@ -62,13 +77,20 @@ $ ->
         data: data
         dataType: 'json'
         success: (data) ->
-          console.log data
-          listData(data, true)
+          if data.length > 0
+            listData(data, true)
+          else
+            disableShowMoreButton()
         error: (data) ->
-          console.log data
           showError(JSON.parse(data.responseText).error)
         complete: ->
           hideLoader()
+
+    enableShowMoreButton = () ->
+      showMoreButton.removeClass('disabled')
+
+    disableShowMoreButton = () ->
+      showMoreButton.addClass('disabled')
 
     showLoader = () ->
       loaderIcon.show()
@@ -100,6 +122,7 @@ $ ->
             <table class='data-wrapper table'>
               <th>Song</th>
               <th>Artist</th>
+              <th>Play</th>
               <th>Download Link</th>
           """
 
@@ -108,11 +131,14 @@ $ ->
       for k, v of data
 
         if v.track_found
+          listenLink = "<a class='listen' data-source='#{v.download_url}'><span class='glyphicon glyphicon-headphones'/> Listen</a>"
           downloadLink = "<a target='_blank' href=#{v.download_url} alt='download'><span class='glyphicon glyphicon-download'/> Download</a>"
         else
+          listenLink = "<a href='' class='disabled' disabled='disabled'><span class='glyphicon glyphicon-ban-circle'/> Unavailable</a>"
           downloadLink = "<a href='' class='disabled' disabled='disabled'><span class='glyphicon glyphicon-ban-circle'/> Unavailable</a>"
 
-        pageHtml += "<tr class='track-row'><td>#{v.song}</td><td>#{v.artist}</td><td>#{downloadLink}</td></tr>"
+
+        pageHtml += "<tr class='track-row'><td>#{v.song}</td><td>#{v.artist}</td><td>#{listenLink}</td><td>#{downloadLink}</td></tr>"
 
       pageHtml += "</table></div>" unless isPaginated
 
@@ -126,6 +152,7 @@ $ ->
           pageHtml = tableHtml + pageHtml + "</table>"
           pageHtml += "<div><button class='btn btn-default show-more'><span class='glyphicon glyphicon-music'></span> Show More</button></div></div>"
           pageWrapper.append(pageHtml)
+          showMoreButton = $('.show-more')
 
       else
         hideAllPages()

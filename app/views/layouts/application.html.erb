@@ -20,6 +20,11 @@
         <button id="submit-username" class="btn btn-default">Submit</button>
       </form>
       <ul class="nav navbar-nav">
+        <li>
+          <a class='audio-wrapper'>
+            <audio src="http://api.soundcloud.com/tracks/134249577/stream?consumer_key=nH8p0jYOkoVEZgJukRlG6w" data-volume="50%" type="audio/mpeg" id="audio-player" preload="auto">
+          </a>
+        </li>
         <li><a><%= image_tag('loader.gif', :class => "loader-img") %></a></li>
         <li><a id="message-display"></a></li>
       </ul>

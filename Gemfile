@@ -8,6 +8,7 @@ gem 'mechanize'
 gem 'pry'
 gem 'jquery-rails'
 gem 'kaminari'
+gem 'audiojs'
 
 
 # Gems used only for assets and not required

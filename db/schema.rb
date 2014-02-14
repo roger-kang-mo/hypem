@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140212055251) do
+ActiveRecord::Schema.define(:version => 20140214013054) do
 
   create_table "hypem_tracks", :force => true do |t|
     t.text    "url"

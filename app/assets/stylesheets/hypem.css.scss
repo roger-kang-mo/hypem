@@ -20,3 +20,12 @@ div.page {
 tr.track-row:hover {
   background-color: #d9edf7;
 }
+
+.listen {
+  cursor: pointer;
+}
+
+.nav li a.audio-wrapper {
+  padding-top: 7px;
+  padding-bottom: 0px;
+}

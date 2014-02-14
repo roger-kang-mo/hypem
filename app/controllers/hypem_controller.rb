@@ -10,7 +10,7 @@ class HypemController < ApplicationController
   def query_tracks
     username = params[:username]
 
-    HypemUser.create({username: username})unless HypemUser.find_by_username(username)
+    HypemUser.create({username: username}) unless HypemUser.find_by_username(username)
 
     data = get_songs_for_user(username)
 
