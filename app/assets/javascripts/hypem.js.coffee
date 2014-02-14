@@ -13,6 +13,9 @@ $ ->
     audioPlayer = $('#audio-player')
     currentlyPlaying = ""
     as = null
+    requestedPermission = false
+
+    notifications = window.webkitNotifications || window.mozNotifications || window.Notifications;
 
     playingClass = "bg-success"
 
@@ -24,6 +27,8 @@ $ ->
       audioPlayer = $('#audio-player')
       volume = as[0]
       volume.setVolume(0.5)
+
+
 
     $(document).on 'click', '.disabled', (e) ->
       e.stopPropagation()
@@ -41,6 +46,9 @@ $ ->
         queryLibrary(0)
 
     $(document).on 'click', '.listen', (e) ->
+      if !requestedPermission && notifications.checkPermission() == 1
+        notifications.requestPermission()
+      requestPermission = true
       targetElem = $(e.target)
       playSong(targetElem)
 
@@ -82,6 +90,12 @@ $ ->
 
       getSong(elem.parents('.track-row'))
       showMessage(currentlyPlaying)
+
+      notify()
+
+    notify = () ->
+      if notifications.checkPermission() == 0
+        notifications.createNotification('/favicon.ico', "Now Playing", currentlyPlaying).show()
 
     getSong = (rowElem) ->
       song = rowElem.find('.song').text()
