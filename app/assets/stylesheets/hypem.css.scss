@@ -4,6 +4,10 @@ div.page {
   .data-wrapper { width: 100%; }
 }
 
+#page-wrapper {
+  margin-top: 40px;
+}
+
 .show-more {
   left: 50%;
   margin-left: -250px;
@@ -28,4 +32,8 @@ tr.track-row:hover {
 .nav li a.audio-wrapper {
   padding-top: 7px;
   padding-bottom: 0px;
+}
+
+#message-display {
+  cursor: default;
 }

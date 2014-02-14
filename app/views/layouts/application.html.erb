@@ -8,7 +8,7 @@
   <%= javascript_include_tag "application" %>
   <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
   <%= csrf_meta_tags %>
-  <nav class="navbar navbar-default" role="navigation">
+  <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container-fluid">
     <div class="navbar-header">
     </div>
@@ -17,7 +17,6 @@
         <div class="form-group">
           <input type="text" class="form-control" id="username" placeholder="hypem username">
         </div>
-        <button id="submit-username" class="btn btn-default">Submit</button>
       </form>
       <ul class="nav navbar-nav">
         <li>
@@ -41,7 +40,7 @@
 </nav>
 </head>
 <body>
-<div id="page-wrapper">
+<div id="page-wrapper" class="container">
   <%= yield %>
 </div>
 

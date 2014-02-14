@@ -23,7 +23,7 @@ module HypemHelper
 
       return_data = track_list.flatten
     rescue Exception => e
-      return_data[:error] = "Couldn't retrieve songs. User may not exist"
+      return_data[:error] = "Couldn't retrieve songs. User may not exist."
     end
 
     return_data
@@ -48,7 +48,6 @@ module HypemHelper
         hypem_track = HypemTrack.where(artist: track_data[:artist], song: track_data[:song]).first
 
         if hypem_track
-          p "Found track in DB"
           track_data[:download_url] = hypem_track.download_url
           track_data[:track_found] = hypem_track.track_found
         else

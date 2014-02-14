@@ -11,9 +11,16 @@ $ ->
     showMoreButton = null
     currentLibraryPage = 0
     audioPlayer = $('#audio-player')
+    currentlyPlaying = ""
+    as = null
+
+    playingClass = "bg-success"
 
     audiojs.events.ready ->
-      as = audiojs.createAll()
+      as = audiojs.createAll(
+        trackEnded: ->
+          playNext()
+      )
       audioPlayer = $('#audio-player')
       volume = as[0]
       volume.setVolume(0.5)
@@ -35,9 +42,7 @@ $ ->
 
     $(document).on 'click', '.listen', (e) ->
       targetElem = $(e.target)
-      sourceUrl = targetElem.data('source')
-      audioPlayer.attr('src', sourceUrl)
-      audioPlayer.load().trigger('play')
+      playSong(targetElem)
 
     $(document).on 'click', '.show-more', ->
       currentLibraryPage += 1
@@ -46,8 +51,48 @@ $ ->
     $("#query-form").submit (e) ->
       e.stopPropagation()
       e.preventDefault()
+      clearMessage()
       userName = userNameField.val()
       queryUsername(userName)
+
+    playNext = () ->
+      foundTrack = false
+      nextTrack = null
+      current = $('.bg-success')
+      if current
+        nextElement = current.next()
+        while(nextElement.length > 0 && foundTrack == false)
+          foundTrack = nextElement.find('.disabled').length == 0
+          nextElement = nextElement.next() unless foundTrack
+        
+        if foundTrack
+          playSong(nextElement.find('.listen'))
+        else
+          clearMessage()
+
+    playSong = (elem) ->
+      rowElem = elem.parents('.track-row') 
+      sourceUrl = elem.data('source')
+      audioPlayer.attr('src', sourceUrl)
+      audioPlayer.load()
+      as[0].play()
+
+      removePlaying()
+      markPlaying(rowElem)
+
+      getSong(elem.parents('.track-row'))
+      showMessage(currentlyPlaying)
+
+    getSong = (rowElem) ->
+      song = rowElem.find('.song').text()
+      artist = rowElem.find('.artist').text()
+      currentlyPlaying = "Playing #{artist} - #{song}"
+
+    markPlaying = (elem) ->
+      elem.addClass(playingClass)
+
+    removePlaying = () ->
+      $(".#{playingClass}").removeClass(playingClass)
 
     queryUsername = (username) ->
       showLoader()
@@ -64,7 +109,7 @@ $ ->
             listData(data)
             updateDropdown()
           error: (data) ->
-            showError(JSON.parse(data.responseText).error)
+            showMessage(JSON.parse(data.responseText).error, as[0].playing)
           complete: ->
             hideLoader()
 
@@ -81,7 +126,7 @@ $ ->
           else
             disableShowMoreButton()
         error: (data) ->
-          showError(JSON.parse(data.responseText).error)
+          showMessage(JSON.parse(data.responseText).error, as[0].playing)
         complete: ->
           hideLoader()
 
@@ -97,10 +142,15 @@ $ ->
     hideLoader = () ->
       loaderIcon.hide()
 
-    showError = (error) ->
-      messageDisplay.text(error)
+    showMessage = (message, returnToSong) ->
+      messageDisplay.text(message)
+      if returnToSong
+        setTimeout (->
+          showMessage currentlyPlaying
+          return
+        ), 3000
 
-    clearError = ->
+    clearMessage = ->
       messageDisplay.text('')
 
     hasPage = (name) ->
@@ -137,7 +187,7 @@ $ ->
           downloadLink = "<a href='' class='disabled' disabled='disabled'><span class='glyphicon glyphicon-ban-circle'/> Unavailable</a>"
 
 
-        pageHtml += "<tr class='track-row'><td>#{v.song}</td><td>#{v.artist}</td><td>#{listenLink}</td><td>#{downloadLink}</td></tr>"
+        pageHtml += "<tr class='track-row'><td class='song'>#{v.song}</td><td class='artist'>#{v.artist}</td><td>#{listenLink}</td><td>#{downloadLink}</td></tr>"
 
       pageHtml += "</table></div>" unless isPaginated
 
