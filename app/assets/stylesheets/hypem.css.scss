@@ -4,6 +4,10 @@ div.page {
   .data-wrapper { width: 100%; }
 }
 
+#userlist-dropdown {
+  margin-left: 15px;
+}
+
 #page-wrapper {
   margin-top: 40px;
 }
@@ -37,3 +41,5 @@ tr.track-row:hover {
 #message-display {
   cursor: default;
 }
+
+.audiojs .play-pause { width: 35px; }

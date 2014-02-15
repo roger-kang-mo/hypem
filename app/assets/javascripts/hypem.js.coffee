@@ -186,7 +186,7 @@ $ ->
               <th>Song</th>
               <th>Artist</th>
               <th>Play</th>
-              <th>Download Link</th>
+              <th>Download</th>
           """
 
       pageHtml = tableHtml unless isPaginated
