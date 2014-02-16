@@ -2,6 +2,8 @@ class HypemController < ApplicationController
   include HypemHelper
 
   def index
+    @hypem_tracks = HypemTrack.page(0)
+
     respond_to do |format|
       format.html
     end

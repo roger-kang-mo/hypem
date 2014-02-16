@@ -9,7 +9,7 @@ $ ->
     messageDisplay = $('#message-display')
     loaderIcon = $('.loader-img')
     showMoreButton = null
-    currentLibraryPage = 0
+    currentLibraryPage = 1
     audioPlayer = $('#audio-player')
     currentlyPlaying = ""
     as = null
@@ -19,16 +19,23 @@ $ ->
 
     playingClass = "bg-success"
 
-    audiojs.events.ready ->
-      as = audiojs.createAll(
-        trackEnded: ->
-          playNext()
-      )
-      audioPlayer = $('#audio-player')
-      volume = as[0]
-      volume.setVolume(0.5)
+    $ ->
+      audiojs.events.ready ->
+        as = audiojs.createAll(
+          trackEnded: ->
+            playNext()
+          loadError: ->
+            console.log "we had an error!"
+            playNext()
+        )
+        audioPlayer = $('#audio-player')
+        volume = as[0]
+        volume.setVolume(0.5)
 
+        window.hypem.as = as
 
+      if args.tracks
+        listData(args.tracks, true)
 
     $(document).on 'click', '.disabled', (e) ->
       e.stopPropagation()
@@ -39,11 +46,8 @@ $ ->
       openUsernamePage(selectedName)
 
     $('#get-library').click ->
-      if $('#library-page').length > 0
-        hideAllPages()
-        $('#library-page').show()
-      else
-        queryLibrary(0)
+      hideAllPages()
+      $('#library-page').show()
 
     $(document).on 'click', '.listen', (e) ->
       if !requestedPermission && notifications.checkPermission() == 1
@@ -91,7 +95,7 @@ $ ->
       getSong(elem.parents('.track-row'))
       showMessage(currentlyPlaying)
 
-      notify()
+      notify()  if hypem.isHidden()
 
     notify = () ->
       if notifications.checkPermission() == 0

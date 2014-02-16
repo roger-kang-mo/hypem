@@ -12,6 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require hypem
 //= require jquery.infinitescroll
 //= require audiojs
 //= require_tree .
