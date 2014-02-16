@@ -37,6 +37,15 @@ $ ->
       if args.tracks
         listData(args.tracks, true)
 
+    $(document).keypress (e) ->
+      if e.which == 732 && e.altKey && e.shiftKey
+        playNext()
+        e.preventDefault()
+      else if e.which == 8719 && e.altKey && e.shiftKey
+        pausePlay()
+        e.preventDefault()
+
+
     $(document).on 'click', '.disabled', (e) ->
       e.stopPropagation()
       e.preventDefault()
@@ -66,6 +75,9 @@ $ ->
       clearMessage()
       userName = userNameField.val()
       queryUsername(userName)
+
+    pausePlay = () ->
+      audiojs.instances.audiojs0.playPause()
 
     playNext = () ->
       foundTrack = false
