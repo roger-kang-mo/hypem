@@ -5,10 +5,10 @@ gem 'rails', '3.2.13'
 gem 'pg'
 gem 'thin'
 gem 'mechanize'
-gem 'pry'
 gem 'jquery-rails'
 gem 'kaminari'
 gem 'audiojs'
+gem 'newrelic_rpm'
 
 
 # Gems used only for assets and not required
@@ -21,4 +21,8 @@ group :assets do
   # gem 'therubyracer', :platforms => :ruby
 
   gem 'uglifier', '>= 1.0.3'
+end
+
+group :development, :test do
+  gem 'pry'
 end

@@ -76,6 +76,7 @@ GEM
     multi_json (1.8.4)
     net-http-digest_auth (1.4)
     net-http-persistent (2.9.4)
+    newrelic_rpm (3.6.6.147)
     nokogiri (1.6.1)
       mini_portile (~> 0.5.0)
     ntlm-http (0.1.1)
@@ -148,6 +149,7 @@ DEPENDENCIES
   jquery-rails
   kaminari
   mechanize
+  newrelic_rpm
   pg
   pry
   rails (= 3.2.13)
