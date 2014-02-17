@@ -1,5 +1,4 @@
 namespace :hypem do
-  # require "#{Rails.root}/app/helpers/hypem_helper"
 
   desc "Update favorites list for each user"
 

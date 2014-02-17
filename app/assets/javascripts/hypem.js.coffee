@@ -25,8 +25,8 @@ $ ->
           trackEnded: ->
             playNext()
           loadError: ->
-            console.log "we had an error!"
             playNext()
+            showMessage("There was an error loading that track. Skipping.", true)
         )
         audioPlayer = $('#audio-player')
         volume = as[0]
