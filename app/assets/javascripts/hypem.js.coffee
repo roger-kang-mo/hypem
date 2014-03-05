@@ -209,15 +209,19 @@ $ ->
 
       for k, v of data
 
+        song = v.song
+        artist = v.artist
+        downloadTitle = "#{artist} - #{song}"
+
         if v.track_found
           listenLink = "<a class='listen' data-source='#{v.download_url}'><span class='glyphicon glyphicon-headphones'/> Listen</a>"
-          downloadLink = "<a target='_blank' href=#{v.download_url} alt='download'><span class='glyphicon glyphicon-download'/> Download</a>"
+          downloadLink = "<a target='_blank' href=#{v.download_url} alt='download' download='#{downloadTitle}'><span class='glyphicon glyphicon-download'/> Download</a>"
         else
           listenLink = "<a href='' class='disabled' disabled='disabled'><span class='glyphicon glyphicon-ban-circle'/> Unavailable</a>"
           downloadLink = "<a href='' class='disabled' disabled='disabled'><span class='glyphicon glyphicon-ban-circle'/> Unavailable</a>"
 
 
-        pageHtml += "<tr class='track-row'><td class='song'>#{v.song}</td><td class='artist'>#{v.artist}</td><td>#{listenLink}</td><td>#{downloadLink}</td></tr>"
+        pageHtml += "<tr class='track-row'><td class='song'>#{song}</td><td class='artist'>#{artist}</td><td>#{listenLink}</td><td>#{downloadLink}</td></tr>"
 
       pageHtml += "</table></div>" unless isPaginated
 
