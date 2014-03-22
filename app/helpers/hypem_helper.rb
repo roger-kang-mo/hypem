@@ -23,6 +23,7 @@ module HypemHelper
 
       return_data = track_list.flatten
     rescue Exception => e
+      logger.error e
       return_data[:error] = "Couldn't retrieve songs. User may not exist."
     end
 
@@ -32,32 +33,36 @@ module HypemHelper
   def get_songs_for_page(url)
     track_list = []
 
-    @mechanize.get(url) do |page|
-      tracks = JSON.parse(page.search("#displayList-data").first)['tracks']
+    begin
+      @mechanize.get(url) do |page|
+        tracks = JSON.parse(page.search("#displayList-data").first)['tracks']
 
-      track_list = tracks.map do |track|
-        url = "#{SOURCE_URL}#{track['id']}/#{track['key']}"
+        track_list = tracks.map do |track|
+          url = "#{SOURCE_URL}#{track['id']}/#{track['key']}"
 
-        track_data = {
-          artist: track['artist'],
-          song: track['song'],
-          post_url: track['posturl'],
-          url: url
-        }
+          track_data = {
+            artist: track['artist'],
+            song: track['song'],
+            post_url: track['posturl'],
+            url: url
+          }
 
-        hypem_track = HypemTrack.where(artist: track_data[:artist], song: track_data[:song]).first
+          hypem_track = HypemTrack.where(artist: track_data[:artist], song: track_data[:song]).first
 
-        if hypem_track
-          track_data[:download_url] = hypem_track.download_url
-          track_data[:track_found] = hypem_track.track_found
-        else
-          track_data = get_download_url(track_data)
+          if hypem_track
+            track_data[:download_url] = hypem_track.download_url
+            track_data[:track_found] = hypem_track.track_found
+          else
+            track_data = get_download_url(track_data)
+          end
+
+          track_data
         end
 
-        track_data
+        track_list
       end
-
-      track_list
+    rescue Mechanize::ResponseCodeError => e
+      logger.error e
     end
 
     track_list
@@ -90,17 +95,21 @@ module HypemHelper
     pages = []
     current_page = 2
 
-    @mechanize.get("http://hypem.com/#{@username}?ax=1") do |page|
-      page_objects = page.search(".paginator").children.to_a
+    begin
+      @mechanize.get("http://hypem.com/#{@username}?ax=1") do |page|
+        page_objects = page.search(".paginator").children.to_a
 
-      page_objects.select! do |p|
-        p.name == 'a' && !p.children.first.text.include?("See more")
-      end
+        page_objects.select! do |p|
+          p.name == 'a' && !p.children.first.text.include?("See more")
+        end
 
-      page_objects.count.times do |t|
-        pages << "/#{current_page}"
-        current_page += 1
+        page_objects.count.times do |t|
+          pages << "/#{current_page}"
+          current_page += 1
+        end
       end
+    rescue Mechanize::ResponseCodeError => e
+      logger.error e
     end
 
     pages

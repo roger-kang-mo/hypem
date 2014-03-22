@@ -72,7 +72,6 @@ $ ->
     $("#query-form").submit (e) ->
       e.stopPropagation()
       e.preventDefault()
-      clearMessage()
       userName = userNameField.val()
       queryUsername(userName)
 
@@ -124,6 +123,9 @@ $ ->
     removePlaying = () ->
       $(".#{playingClass}").removeClass(playingClass)
 
+    preloadSongs = () ->
+
+
     queryUsername = (username) ->
       showLoader()
       if hasPage(username)
@@ -135,7 +137,6 @@ $ ->
           data: data
           dataType: 'json'
           success: (data) ->
-            console.log data
             listData(data)
             updateDropdown()
           error: (data) ->

@@ -6,4 +6,6 @@ Hypem::Application.routes.draw do
 
   get 'get_tracks' => 'hypem#query_tracks'
   get 'get_library' => 'hypem#get_library'
+
+  get '/:username' => 'hypem#index'
 end
