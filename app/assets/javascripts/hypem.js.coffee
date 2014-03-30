@@ -86,7 +86,7 @@ $ ->
         nextElement = current.next()
         while(nextElement.length > 0 && foundTrack == false)
           foundTrack = nextElement.find('.disabled').length == 0
-          nextElement = nextElement.next() unless foundTrack
+          nextElement = nextElement.next() unless foundTrack && nextElement.find('play-song').is(':checked')
         
         if foundTrack
           playSong(nextElement.find('.listen'))
@@ -200,6 +200,7 @@ $ ->
       tableHtml = """
           <div class='page' id='#{userName}'>
             <table class='data-wrapper table'>
+              <th>Play?</th>
               <th>Song</th>
               <th>Artist</th>
               <th>Play</th>
@@ -222,7 +223,7 @@ $ ->
           downloadLink = "<a href='' class='disabled' disabled='disabled'><span class='glyphicon glyphicon-ban-circle'/> Unavailable</a>"
 
 
-        pageHtml += "<tr class='track-row'><td class='song'>#{song}</td><td class='artist'>#{artist}</td><td>#{listenLink}</td><td>#{downloadLink}</td></tr>"
+        pageHtml += "<tr class='track-row'><td><input class='play-song' type='checkbox' checked></td><td class='song'>#{song}</td><td class='artist'>#{artist}</td><td>#{listenLink}</td><td>#{downloadLink}</td></tr>"
 
       pageHtml += "</table></div>" unless isPaginated
 
