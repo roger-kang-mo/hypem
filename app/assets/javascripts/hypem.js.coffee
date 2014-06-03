@@ -59,9 +59,10 @@ $ ->
       $('#library-page').show()
 
     $(document).on 'click', '.listen', (e) ->
-      if !requestedPermission && notifications.checkPermission() == 1
-        notifications.requestPermission()
-      requestPermission = true
+      if notifications
+        if !requestedPermission && notifications.checkPermission() == 1
+          notifications.requestPermission()
+        requestPermission = true
       targetElem = $(e.target)
       playSong(targetElem)
 
@@ -106,7 +107,7 @@ $ ->
       getSong(elem.parents('.track-row'))
       showMessage(currentlyPlaying)
 
-      notify()  if hypem.isHidden()
+      notify()  if hypem.isHidden() && notifications
 
     notify = () ->
       if notifications.checkPermission() == 0
