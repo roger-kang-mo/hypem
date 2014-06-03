@@ -110,7 +110,7 @@ $ ->
       notify()  if hypem.isHidden() && notifications
 
     notify = () ->
-      if notifications.checkPermission() == 0
+      if notifications && notifications.checkPermission() == 0
         notifications.createNotification('/favicon.ico', "Now Playing", currentlyPlaying).show()
 
     getSong = (rowElem) ->
