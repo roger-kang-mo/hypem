@@ -5,6 +5,39 @@ module HypemHelper
 
   SOURCE_URL = "http://hypem.com/serve/source/"
 
+  ADJECTIVES = [
+      "autumn", "hidden", "bitter", "misty", "silent", "empty", "dry", "dark",
+      "summer", "icy", "delicate", "quiet", "white", "cool", "spring", "winter",
+      "patient", "twilight", "dawn", "crimson", "wispy", "weathered", "blue",
+      "billowing", "broken", "cold", "damp", "falling", "frosty", "green",
+      "long", "late", "lingering", "bold", "little", "morning", "muddy", "old",
+      "red", "rough", "still", "small", "sparkling", "throbbing", "shy",
+      "wandering", "withered", "wild", "black", "young", "holy", "solitary",
+      "fragrant", "aged", "snowy", "proud", "floral", "restless", "divine",
+      "polished", "ancient", "purple", "lively", "nameless", "arcane"
+    ]
+
+  NOUNS = [
+    "waterfall", "river", "breeze", "moon", "rain", "wind", "sea", "morning",
+    "snow", "lake", "sunset", "pine", "shadow", "leaf", "dawn", "glitter",
+    "forest", "hill", "cloud", "meadow", "sun", "glade", "bird", "brook",
+    "butterfly", "bush", "dew", "dust", "field", "fire", "flower", "firefly",
+    "feather", "grass", "haze", "mountain", "night", "pond", "darkness",
+    "snowflake", "silence", "sound", "sky", "shape", "surf", "thunder",
+    "violet", "water", "wildflower", "wave", "water", "resonance", "sun",
+    "wood", "dream", "cherry", "tree", "fog", "frost", "voice", "paper",
+    "frog", "smoke", "star", "savannah", "wilderness", "tree-stump"
+  ]
+
+  def get_random_name
+    random_name = "#{ADJECTIVES.sample}-#{NOUNS.sample}"
+    while HypemUser.where(fake_name: random_name).count > 0 do
+      random_name = "#{ADJECTIVES.sample}-#{NOUNS.sample}"
+    end
+
+    random_name
+  end
+
   def get_songs_for_user(username)
     return_data = {}
     @username = username
@@ -13,7 +46,9 @@ module HypemHelper
     }
 
     pages = [""]
-    dest_url = "http://hypem.com/#{username}?ax=1"
+
+    # /tags/#{genre} for genre pages
+    dest_url = "http://hypem.com/#{@username}?ax=1"
     track_list = []
 
     begin

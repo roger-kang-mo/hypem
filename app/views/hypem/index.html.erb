@@ -1,3 +1,91 @@
-<script>
-  $(document).ready(function(){ hypem.main({ tracks: <%= JSON(@hypem_tracks.as_json).html_safe %> }); });
-</script>
+<div
+  ng-app="hypem"
+  ng-controller="HypemController" ng-init="init(<%= @seed %>)">
+  <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+          </button>
+          <a class="navbar-brand" href="#"><audio src='' data-volume="50%" type="audio/mpeg" id="audio-player" preload="auto"></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <!-- <ul class="nav navbar-nav navbar-right"> -->
+            <!-- <li><a href="#">Dashboard</a></li> -->
+          <!-- </ul> -->
+          <form class="navbar-form navbar-right" ng-submit="setList(queryText)">
+            <input type="text" ng-model="queryText" class="form-control" id="username" placeholder="hypem username">
+            <input type="submit" class="hidden">
+          </form>
+        </div>
+      </div>
+  </nav>
+
+  <div class="container-fluid">
+    <div class="row row-offcanvas row-offcanvas-left">
+      <div class="col-sm-3 col-md-2 sidebar-offcanvas" id="sidebar" role="navigation">
+        <ul class="nav nav-sidebar">
+          <li ng-repeat="(listName, values) in trackLists" ng-class="{active: currentList == listName, disabled: loadingList == listName}" ng-click="setList(listName)">
+            <a href ui-sref="hypem.list">{{values['fakeName']}} 
+              <!-- <span class="mini-text" ng-show="values['fetched'] == true">[{{values['tracks'].length}}]</span>  -->
+              <span class="mini-text" ng-show="values['username'] == 'hypemmain' || values['showUsername'] == true">({{values['username']}})</span>
+              <i ng-show="loadingList == listName" class="fa fa-cog fa-spin"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-sm-9 col-md-10 main">
+        
+        <p class="visible-xs">
+          <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas"><i class="glyphicon glyphicon-chevron-left"></i></button>
+        </p>
+
+        <div class="table-responsive">
+          <table class='table table-hover'>
+            <tr>
+              <!-- <th>Play?</th> -->
+              <th>Song</th>
+              <th>Artist</th>
+              <th>Play</th>
+              <th>Download</th>
+              <th></th>
+            </tr>
+            <tr ng-repeat="track in currentTracks" class='track-row'>
+              <!-- <td><input class='play-song' type='checkbox' checked></td> -->
+              <td class='song'>{{track.song}}</td>
+              <td class='artist'>{{track.artist}}</td>
+              <td ng-click="setTrackUrl(track)"><a href><i class="fa fa-headphones"></i> Listen</a></td>
+              <td>
+                <a target='_blank' href='{{track.download_url}}' alt='download' download='{{track.artist}} - {{track.song}}'>
+                  <i class="fa fa-download"></i> Download
+                </a>
+              </td>
+              <td>
+                <span class="dropdown"><a href class="dropdown-toggle"><i class="fa fa-bars"></i></a>
+                  <ul class="dropdown-menu">
+                    <li>
+                      <a href ng-click="setTrackUrl(track)"><i class="fa fa-headphones"></i> Listen</a>
+                      <a target='_blank' href='{{track.download_url}}' alt='download' download='{{track.artist}} - {{track.song}}'>
+                        <i class="fa fa-download"></i> Download
+                      </a>
+                      <a href="" ng-click="addToPlaylist(track)">Add to Playlist</a>
+                    </li>
+                  </ul>
+                </span>
+              </td>
+            </tr>
+            <tr ng-show="currentTracks.length == 0">
+              <td colspan="5" class="text-center">Nothing here to see</td>
+            </tr>
+          </table>
+          <div ng-show="currentList == 'hypemmain'">
+            <button class='btn btn-default' ng-click="query('hypemmain', libraryPage + 1)">
+             Show More</button>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+
+

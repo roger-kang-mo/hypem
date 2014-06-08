@@ -4,8 +4,8 @@ Hypem::Application.routes.draw do
 
   resources :hypem
 
-  get 'get_tracks' => 'hypem#query_tracks'
-  get 'get_library' => 'hypem#get_library'
+  get 'get_tracks' => 'hypem#get_tracks'
+  get 'get_users' => 'hypem#get_users'
 
   get '/:username' => 'hypem#index'
 end

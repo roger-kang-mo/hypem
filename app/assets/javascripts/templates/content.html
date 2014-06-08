@@ -1,0 +1,30 @@
+<div class="col-sm-9 col-md-10 main">
+        
+  <p class="visible-xs">
+    <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas"><i class="glyphicon glyphicon-chevron-left"></i></button>
+  </p>
+
+  <div class="table-responsive">
+    <table class='data-wrapper table'>
+      <tr>
+        <th>Play?</th>
+        <th>Song</th>
+        <th>Artist</th>
+        <th>Play</th>
+        <th>Download</th>
+      </tr>
+      <tr ng-repeat="track in currentTracks" class='track-row'>
+        <td><input class='play-song' type='checkbox' checked></td>
+        <td class='song'>{{track.song}}</td>
+        <td class='artist'>{{track.artist}}</td>
+        <td ng-click="setTrackUrl(track)"><a class='listen'><span class='glyphicon glyphicon-headphones'/> Listen</a></td>
+        <td>
+          <a target='_blank' href='{{track.download_url}}' alt='download' download='{{track.artist}} - {{track.song}}'>
+            <span class='glyphicon glyphicon-download'/> Download
+          </a>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+</div>

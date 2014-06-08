@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140214013054) do
+ActiveRecord::Schema.define(:version => 20140608035537) do
 
   create_table "hypem_tracks", :force => true do |t|
     t.text    "url"
@@ -23,7 +23,8 @@ ActiveRecord::Schema.define(:version => 20140214013054) do
   end
 
   create_table "hypem_users", :force => true do |t|
-    t.text "username"
+    t.text   "username"
+    t.string "fake_name"
   end
 
 end

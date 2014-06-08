@@ -12,7 +12,18 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require hypem
+//= require angular
+//= require angular-resource
+//= require bootstrap.min
+//= require angular-ui-router.min
+//= require ui-bootstrap-tpls-0.11.0.min
+//= require angular-rails-templates
 //= require jquery.infinitescroll
 //= require audiojs
+//= require_tree ./templates
+//= require app
+//= require config
+//= require services
+//= require directives
+//= require controllers
 //= require_tree .

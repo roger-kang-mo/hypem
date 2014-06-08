@@ -9,6 +9,10 @@ gem 'jquery-rails'
 gem 'kaminari'
 gem 'audiojs'
 gem 'newrelic_rpm'
+gem 'angularjs-rails'
+gem 'angular-rails-templates'
+gem 'faker'
+gem 'font-awesome-rails'
 
 
 # Gems used only for assets and not required

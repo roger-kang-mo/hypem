@@ -3,46 +3,12 @@
 <head>
   <title>Hypem</title>
   <%= stylesheet_link_tag    "application", :media => "all" %>
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap-theme.min.css">
   <%= javascript_include_tag "application" %>
-  <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
   <%= csrf_meta_tags %>
-  <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-  <div class="container-fluid">
-    <div class="navbar-header">
-    </div>
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav navbar-left">
-        <li>
-          <a class='audio-wrapper'>
-            <audio src="http://api.soundcloud.com/tracks/134249577/stream?consumer_key=nH8p0jYOkoVEZgJukRlG6w" data-volume="50%" type="audio/mpeg" id="audio-player" preload="auto">
-          </a>
-        </li>
-        <li><a><%= image_tag('loader.gif', :class => "loader-img") %></a></li>
-        <li><a id="message-display"></a></li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right" id="userlist-dropdown">
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Users<b class="caret"></b></a>
-          <ul class="dropdown-menu" id="user-dropdown">
-            <li id="get-library"><a>Library</a></li>
-          </ul>
-        </li>
-      </ul>
-      <form class="navbar-form navbar-right" role="search" id="query-form">
-        <div class="form-group">
-          <input type="text" class="form-control" id="username" placeholder="hypem username">
-        </div>
-      </form>
-    </div>
-  </div>
-</nav>
 </head>
 <body>
-<div id="page-wrapper" class="container">
-  <%= yield %>
-</div>
+  
+<%= yield %>
 
 </body>
 </html>

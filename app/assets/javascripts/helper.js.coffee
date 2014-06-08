@@ -1,4 +1,5 @@
 $ ->
+  window.hypem = {}
   window.hypem.getHiddenProp = ->
     prefixes = [
       "webkit"
