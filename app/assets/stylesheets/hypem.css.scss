@@ -7,6 +7,14 @@
 // #userlist-dropdown {
 //   margin-left: 15px;
 // }
+[class^="icon-"], [class*=" icon-"] {
+    display: inline-block;
+    width: 100%;
+}
+
+td a i {
+    text-align:center;
+}
 
 #page-wrapper {
   margin-top: 60px;

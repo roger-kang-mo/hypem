@@ -3,5 +3,5 @@ class HypemUser < ActiveRecord::Base
 
 
   validates :username, presence: true 
-  has_many :hypem_tracks
+  has_and_belongs_to_many :hypem_tracks
 end

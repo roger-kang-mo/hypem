@@ -11,7 +11,17 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140608035537) do
+ActiveRecord::Schema.define(:version => 20140610044134) do
+
+  create_table "hypem_playlists", :force => true do |t|
+    t.text     "name"
+    t.datetime "created_at"
+  end
+
+  create_table "hypem_playlists_hypem_tracks", :force => true do |t|
+    t.integer "hypem_playlist_id"
+    t.integer "hypem_track_id"
+  end
 
   create_table "hypem_tracks", :force => true do |t|
     t.text    "url"
@@ -22,9 +32,15 @@ ActiveRecord::Schema.define(:version => 20140608035537) do
     t.boolean "track_found"
   end
 
+  create_table "hypem_tracks_hypem_users", :force => true do |t|
+    t.integer "hypem_track_id"
+    t.integer "hypem_user_id"
+  end
+
   create_table "hypem_users", :force => true do |t|
-    t.text   "username"
-    t.string "fake_name"
+    t.text    "username"
+    t.string  "fake_name"
+    t.integer "last_checked"
   end
 
 end

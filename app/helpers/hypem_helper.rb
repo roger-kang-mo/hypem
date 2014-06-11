@@ -38,9 +38,10 @@ module HypemHelper
     random_name
   end
 
-  def get_songs_for_user(username)
+  def get_songs_for_user(user)
     return_data = {}
-    @username = username
+    @user = user
+    @username = user.username
     @mechanize = Mechanize.new { |agent|
       agent.user_agent_alias = 'Mac Safari'
     }
@@ -116,12 +117,14 @@ module HypemHelper
       end
     rescue Exception => e
       p "Couldn't get download url for #{track_data[:artist]} - #{track_data[:song]}."
-      track_data[:download_url] = "N/A"
+      track_data[:download_url] = ""
       track_data[:track_found] = false
     end
 
     new_track = HypemTrack.create(track_data)
     new_track.save
+
+    @user.hypem_tracks << new_track
 
     track_data
   end

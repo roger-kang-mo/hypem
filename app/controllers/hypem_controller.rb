@@ -26,7 +26,7 @@ class HypemController < ApplicationController
     elsif list_name
       user = HypemUser.where('username = ? OR fake_name = ?', list_name, list_name).first
       user = HypemUser.create({username: list_name, fake_name: get_random_name}) unless user
-      @data[:tracks] = get_songs_for_user(user.username)
+      @data[:tracks] = params[:force_check] ? get_songs_for_user(user) : user.hypem_tracks
       @data[:fake_name] = user.fake_name
     end
 

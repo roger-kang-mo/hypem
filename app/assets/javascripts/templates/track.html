@@ -1,9 +1,29 @@
-<td><input class='play-song' type='checkbox' checked></td>
 <td class='song'>{{track.song}}</td>
 <td class='artist'>{{track.artist}}</td>
-<td><a class='listen' data-source='{{track.download_url}]'><span class='glyphicon glyphicon-headphones'/> Listen</a></td>
+<td ng-click="setTrackUrl(track)"><a href><i class="fa fa-play"></i> Listen</a></td>
 <td>
-  <a target='_blank' href='{{track.download_url}}' alt='download' download='{{track.artist}} - {{track.song}}'>
-    <span class='glyphicon glyphicon-download'/> Download
+  <a target='_blank' ng-show='track.download_url.length > 0' href='{{track.download_url}}' alt='download' download='{{track.artist}} - {{track.song}}'>
+    <i class="fa fa-download" ng-show='track.download_url.length > 0'></i> Download
   </a>
+  <a href ng-show='track.download_url.length == 0' tooltip="Unavailable">
+    <i class="fa fa-ban text-center"></i>
+  </a>
+</td>
+<td>
+  <span class="dropdown"><a href class="dropdown-toggle"><i class="fa fa-bars"></i></a>
+    <ul class="dropdown-menu" style="right: 0; left: auto;">
+      <li>
+        <a href ng-click="setTrackUrl(track)" class="text-center" tooltip="Listen"><i class="fa fa-play"></i></a>
+        <a target='_blank' tooltip="Download"
+           ng-show='track.download_url.length > 0'
+           class="text-center" href='{{track.download_url}}'
+           alt='download' download='{{track.artist}} - {{track.song}}'>
+          <i class="fa fa-download"></i>
+        </a>
+        <a target='_blank' ng-show='track.download_url.length == 0' disabled="disabled" tooltip="Unavailable" class="text-center"><i class="fa fa-ban"></i></a>
+
+        <a href ng-click="addToPlaylist(track)" tooltip="Add to Playlist" class="text-center"><i class="fa fa-list"></i></a>
+      </li>
+    </ul>
+  </span>
 </td>
