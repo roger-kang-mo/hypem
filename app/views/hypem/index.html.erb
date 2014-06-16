@@ -1,60 +1,86 @@
 <div
+  id="hypem-main"
   ng-app="hypem"
   ng-controller="HypemController" ng-init="init(<%= @seed %>)">
-  <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-    <div class="container-fluid">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-          <span class="sr-only">Toggle navigation</span>
-        </button>
-        <!-- <a class="navbar-brand" href="#"><audio src='' data-volume="50%" type="audio/mpeg" id="audio-player" preload="auto"></a> -->
-      </div>
-      <div class="navbar-collapse collapse">
-        <form class="navbar-form" ng-submit="setList(queryText)">
-          <input type="text" ng-model="queryText" class="form-control" id="username">
+  <nav class="navbar navbar-inverse navbar-fixed-top hypem-nav hypem-nav-main" role="navigation">
+    <div class="container-fluid col-md-12">
+      <div class="navbar-collapse collapsed">
+        <a href class="navbar-brand" ng-click="showOptions()">Hypem</a>
+        <div class="col-md-3 nav-col">
+          <div class="btn" ng-click="playNextOrPrevious('previous')">
+            <i class="fa fa-step-backward fa-inverse"></i>
+          </div>
+          <div class="btn" ng-click="audioPlayer.playPause()">
+            <i class="fa fa-play fa-inverse" ng-class="{ 'fa-pause': audioPlayer.playing, 'fa-play': !audioPlayer.playing }"></i>
+          </div>
+          <div class="btn" ng-click="playNextOrPrevious('next')">
+            <i class="fa fa-step-forward fa-inverse"></i>
+          </div>
+          <div class="btn" ng-click="setVolume(audioPlayer.volume - 0.1)">
+            <span><i class="fa fa-volume-down fa-inverse"></i></span>
+          </div>
+          <div class="btn" ng-click="setVolume(audioPlayer.volume + 0.1)">
+            <span><i class="fa fa-volume-up fa-inverse"></i></span>
+          </div>
+        </div>
+        <div class="col-md-4 nav-col">
+          <span class="inverse-text" ng-show="audioPlayer.currentTrack">{{ audioPlayer.$playlist[audioPlayer.currentTrack - 1].trackData.artist }} - {{ audioPlayer.$playlist[audioPlayer.currentTrack - 1].trackData.song }}</span>
+        </div>
+        <form class="col-md-4 query-form right-inner-addon pull-right" ng-submit="enterQuery(queryText)">
+          <i class="fa fa-search"></i>
+          <input type="text" ng-model="queryText" class="form-control" id="query">
           <input type="submit" class="hidden">
         </form>
+        <div class="visible-xs col-md-1 side-toggle">
+          <a href><i class="fa fa-bars fa-inverse" data-toggle="offcanvas"></i></a>
+        </div>
       </div>
     </div>
   </nav>
 
-  <div class="container-fluid">
+  <nav class="navbar-collapse collapse navbar-inverse navbar lower-nav hypem-nav">
+    <audio media-player="audioPlayer" data-playlist="currentTracks">
+      <source type="audio/mp3">
+    </audio>
+    <div class="progress" ng-click="audioPlayer.seek(audioPlayer.duration * seekPercentage($event))">
+      <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" ng-style="{ width: audioPlayer.currentTime*100/audioPlayer.duration + '%' }"></div>
+      <div class="time audiotext" ng-show="audioPlayer.formatTime">
+        <span>{{audioPlayer.formatTime}}</span><b>/</b><span>{{audioPlayer.formatDuration}}</span>
+      </div>
+    </div>
+  </nav>
+
+  <div id="hypem-body" class="container-fluid">
     <div class="row row-offcanvas row-offcanvas-left">
       <div class="col-sm-3 col-md-2 sidebar-offcanvas" id="sidebar" role="navigation">
         <ul class="nav nav-sidebar">
           <li></li>
           <li ng-repeat="(listName, values) in trackLists" ng-class="{active: currentList == listName, disabled: loadingList == listName}" ng-click="setList(listName)">
-            <a href ui-sref="hypem.list">{{values['fakeName']}} 
-              <!-- <span class="badge" ng-show="values['fetched'] == true">{{values['tracks'].length}}</span>  -->
+            <a href ui-sref="hypem.list">{{values['fakeName']}}
               <span class="mini-text" ng-show="values['username'] == 'hypemmain' || values['showUsername'] == true">({{values['username']}})</span>
               <i ng-show="loadingList == listName" class="fa fa-cog fa-spin"></i>
             </a>
           </li>
         </ul>
       </div>
-      <div class="col-sm-9 col-md-10 main">
-        
-        <p class="visible-xs">
-          <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas"><i class="fa fa-chevron-left"></i></button>
-        </p>
-
+      <div class="col-sm-9 col-md-10 main" infinite-scroll="paginateMe()">
         <ul>
-          <div ng-repeat="track in currentTracks">
+          <div ng-repeat="track in currentTracks" class="track">
             <div class="col-md-8">
-              <h3 class="lead">{{track.song}}</h3>
-              <h4 class="lead">{{track.artist}}</h4>
+              <h3 class="lead">{{track.trackData.song}}</h3>
+              <h4 class="lead">{{track.trackData.artist}}</h4>
             </div>
             <div class="col-md-4">
               <div class="pull-right">
                 <span>
-                  <a href ng-click="setTrackUrl(track)"><i class="fa fa-play" tooltip="Play"></i></a>
-                  <a target='_blank' ng-show='track.download_url.length > 0' href='{{track.download_url}}' alt='download' download='{{track.artist}} - {{track.song}}'>
-                    <i class="fa fa-download" ng-show='track.download_url.length > 0' tooltip="Download"></i>
+                  <a href ng-click="setTrackUrl(track.trackData)"><i class="fa fa-play" tooltip="Play"></i></a>
+                  <a target='_blank' ng-show='track.trackData.download_url.length > 0' href='{{track.trackData.download_url}}' alt='download' download='{{track.trackData.artist}} - {{track.trackData.song}}'>
+                    <i class="fa fa-download" ng-show='track.trackData.download_url.length > 0' tooltip="Download"></i>
                   </a>
-                  <a href ng-show='track.download_url.length == 0' tooltip="Unavailable">
+                  <a href ng-show='track.trackData.download_url.length == 0' tooltip="Unavailable">
                     <i class="fa fa-ban text-center"></i>
                   </a>
-                  <a href ng-click="addToPlaylist(track)" tooltip="Add to Playlist"><i class="fa fa-list"></i></a>
+                  <a href ng-click="addToPlaylist(track.trackData)" tooltip="Add to Playlist"><i class="fa fa-list"></i></a>
                 </span>
               </div>
             </div>
@@ -63,6 +89,7 @@
         </ul>
       </div>
     </div>
+  </div>
 </div>
 
 

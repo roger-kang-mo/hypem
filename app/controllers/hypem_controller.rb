@@ -17,17 +17,23 @@ class HypemController < ApplicationController
     end
   end
 
+  # def search
+  #   @q = HypemTrack.search(params[:q])
+  #   @people = @q.includes(:hypem_users).includes(:hypem_playlists).result(distinct: true)
+  # end
+
   def get_tracks
     list_name = params[:query]
     @data = {}
 
     if list_name == "hypemmain"
-      @data[:tracks] = get_library(params[:page])
+      @data[:tracks] = paginate_tracks(list_name, params[:page])
     elsif list_name
       user = HypemUser.where('username = ? OR fake_name = ?', list_name, list_name).first
       user = HypemUser.create({username: list_name, fake_name: get_random_name}) unless user
-      @data[:tracks] = params[:force_check] ? get_songs_for_user(user) : user.hypem_tracks
+      @data[:tracks] = params[:force_check] ? get_songs_for_user(user) : paginate_tracks(user, params[:page])
       @data[:fake_name] = user.fake_name
+      @data[:finished] = @data[:tracks].length == 0 ? true : false
     end
 
     respond_to do |format|
@@ -41,9 +47,16 @@ class HypemController < ApplicationController
 
   private
 
-  def get_library(page = 0)
+  def paginate_tracks(user, page = 0)
+    # console.log "here #{page}"
     params[:seed] ||= Random.new_seed
     srand params[:seed].to_i
-    Kaminari.paginate_array(HypemTrack.all.shuffle).page(page).per(25)
+    if user == "hypemmain"
+      Kaminari.paginate_array(HypemTrack.all.shuffle).page(page).per(25)
+    else
+      Kaminari.paginate_array(user.hypem_tracks.all.shuffle).page(page).per(25)
+    end
+
+
   end
 end

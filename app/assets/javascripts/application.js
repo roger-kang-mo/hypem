@@ -18,8 +18,8 @@
 //= require angular-ui-router.min
 //= require ui-bootstrap-tpls-0.11.0.min
 //= require angular-rails-templates
-//= require jquery.infinitescroll
-//= require audiojs
+//= require ng-infinite-scroll.min
+//= require angular-media-player.min
 //= require_tree ./templates
 //= require app
 //= require config

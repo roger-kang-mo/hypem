@@ -1,12 +1,3 @@
-// div.page {
-//   padding: 2%;
-
-//   .data-wrapper { width: 100%; }
-// }
-
-// #userlist-dropdown {
-//   margin-left: 15px;
-// }
 [class^="icon-"], [class*=" icon-"] {
     display: inline-block;
     width: 100%;
@@ -20,36 +11,93 @@ td a i {
   margin-top: 60px;
 }
 
-// .show-more {
-//   left: 50%;
-//   margin-left: -250px;
-//   position: absolute;
-//   width: 500px;
-// }
+.inverse-text {
+  color: #fff;
+}
+.progress {
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
+}
 
-// .loader-img {
-//   margin-left: -15px;
-//   width: 17px;
-//   display: none;
-// }
+input#query[type="text"] {
+  width: 50%;
+  -webkit-transition: width 1s ease-in-out;
+  -moz-transition:width 1s ease-in-out;
+  -o-transition: width 1s ease-in-out;
+  transition: width 1s ease-in-out;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
+  float:right;
+}
 
-// tr.track-row:hover {
-//   background-color: #d9edf7;
-// }
+input#query[type="text"]:focus {
+  width: 80%;
+}
 
-// .listen {
-//   cursor: pointer;
-// }
+input#query[type="text"] {
+  -webkit-transition: all 0.7s ease 0s;
+  -moz-transition: all 0.7s ease 0s;
+  -o-transition: all 0.7s ease 0s;
+  transition: all 0.7s ease 0s;
+}
 
-// .nav li a.audio-wrapper {
-//   padding-top: 7px;
-//   padding-bottom: 0px;
-// }
+div.nav-col {
+  padding: 10px;
+}
 
-// #message-display {
-//   cursor: default;
-// }
+.lower-nav .progress{
+  margin-top: 20px;
+}
 
-// .audiojs .play-pause { width: 35px; }
+.query-form {
+  margin-top: 8px;
+}
 
-// .track-row .play-song { margin-left: 10px; }
+.right-inner-addon {
+    position: relative;
+}
+.right-inner-addon input {
+    padding-right: 30px;
+}
+.right-inner-addon i {
+    position: absolute;
+    right: 15px;
+    padding: 10px 12px;
+    pointer-events: none;
+}
+
+.audiotext span {
+  padding: 5px;
+}
+
+#hypem-main {
+  .hypem-nav {
+    div div {
+      .visible-xs.side-toggle {
+        font-size: 25px;
+      }
+    }
+  }
+
+  #hypem-body {
+    .row .main ul .track {
+      overflow: hidden;
+      border: 1px solid #ccc;
+
+      div div span a i {
+        color: #ccc;
+        padding: 10px;
+        padding-top: 35px;
+        font-size:50px;
+
+        &:hover {
+          color: #333;
+        }
+      }
+
+    }
+  }
+
+}

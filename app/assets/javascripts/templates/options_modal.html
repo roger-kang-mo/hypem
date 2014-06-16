@@ -1,0 +1,15 @@
+<div class="modal-header">Options</div>
+<div class="modal-body">
+  <form action="">
+    <div class="form-group">
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" ng-model="options.forceCheck">
+          <strong class="lead">Force Check</strong>:
+          <span class="minitext">Each search will go to HypeMachine and re-index the searched user's favorites. This really isn't recommended unless you need up to the second updates (e.g. You just favorited a song).</span>
+        </label>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="modal-footer"><button type="submit" ng-click="closeModal()" class="btn btn-default">OK!</button></div>

@@ -2,5 +2,8 @@ hypemApp = angular.module('hypem', [
   # 'ui.router',
   'templates',
   'ui.bootstrap',
-  'ngResource'
+  'ngResource',
+  'infinite-scroll',
+  'mediaPlayer'
 ])
+
