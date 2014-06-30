@@ -5,7 +5,10 @@ Hypem::Application.routes.draw do
   resources :hypem
 
   get 'get_tracks' => 'hypem#get_tracks'
-  get 'get_users' => 'hypem#get_users'
+
+  resources :hypem_users
+  resources :hypem_playlists
+  resources :hypem_tracks
 
   get '/:username' => 'hypem#index'
 end

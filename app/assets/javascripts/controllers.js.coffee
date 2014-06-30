@@ -1,15 +1,17 @@
-angular.module('hypem').controller 'HypemController', ['$scope', '$rootScope', 'hypemService', 'hypemUserService', '$sce', '$modal', ($scope, $rootScope, hypemService, hypemUserService, $sce, $modal) ->
+angular.module('hypem').controller 'HypemController', ['$scope', '$rootScope', 'hypemService', 'hypemUserService', 'hypemPlaylistService', '$sce', '$modal', ($scope, $rootScope, hypemService, hypemUserService, hypemPlaylistService, $sce, $modal) ->
   $scope.init = (seed) ->
-    $scope.trackLists = { hypemmain: { tracks: [], fakeName: 'Library', page: 0, finished: false, playing: false }}
+    $scope.trackLists = { hypemmain: { tracks: [], fakeName: 'Library', page: 0, finished: false, playing: false, type: 'playlist' }}
     $scope.loadingList = ''
     $scope.currentList = "hypemmain"
     $scope.queryText = ''
     $scope.currentTracks = [{src: "http://api.soundcloud.com/tracks/134249577/stream?consumer_key=nH8p0jYOkoVEZgJukRlG6w", type: "audio/mp3"}]
+    $scope.currentPlaylist = { name: '', tracks: [] }
     $scope.seed = seed
-    $scope.options = { forceCheck: false }
+    $scope.options = { forceCheck: false, playlistName: '' }
     $scope.queries = {}
     $scope.currentQuery = ''
     $scope.lastListLoaded = ''
+    $scope.showAddPlaylistInput = false
 
     $scope.currentTrackUrl = $sce.trustAsResourceUrl("http://api.soundcloud.com/tracks/134249577/stream?consumer_key=nH8p0jYOkoVEZgJukRlG6w")
 
@@ -17,16 +19,24 @@ angular.module('hypem').controller 'HypemController', ['$scope', '$rootScope', '
 
     getUsers()
 
+    $scope.audioPlayer.on 'play', () -> $scope.updateCurrentlyPlaying()
+
   getUsers = () ->
     hypemUserService.fetch().then (data) ->
       users = data.data
 
       for user in users
-        $scope.trackLists[user.username] = { tracks: [], fakeName: user.fake_name, fetched: false,  page: 0}
+        $scope.trackLists[user.username] = { tracks: [], fakeName: user.fake_name, fetched: false,  page: 0, type: "user", id: user.id}
 
   setupList = (listName) ->
     $scope.currentList = listName
     $scope.currentTracks = $scope.trackLists[listName]['tracks']
+    $scope.lastListLoaded = listName
+
+    playlistLength = $scope.currentPlaylist.tracks.length
+    if (playlistLength && !$scope.currentPlaylist.tracks[0].src) || !playlistLength
+      $scope.currentPlaylist.name = $scope.currentList
+      $scope.currentPlaylist.tracks = $scope.currentTracks
 
   allowQuery = (query) ->
     $scope.queries[query] ||= 0
@@ -69,14 +79,14 @@ angular.module('hypem').controller 'HypemController', ['$scope', '$rootScope', '
   $scope.playNextOrPrevious = (type) ->
     if type == "previous"
       if $scope.audioPlayer.currentTrack > 1
-        trackObj = $scope.audioPlayer.$playlist[$scope.audioPlayer.currentTrack - 1].trackData
         $scope.audioPlayer.pause()
         $scope.audioPlayer.prev(true)
+        $scope.updateCurrentlyPlaying()
     else
       if $scope.audioPlayer.currentTrack != $scope.audioPlayer.$playlist.length
         $scope.audioPlayer.pause()
         $scope.audioPlayer.next(true)
-        trackObj = $scope.audioPlayer.$playlist[$scope.audioPlayer.currentTrack + 1].trackData
+        $scope.updateCurrentlyPlaying()
 
   setupTrackObjects = (tracks) ->
     trackObjects = []
@@ -89,17 +99,24 @@ angular.module('hypem').controller 'HypemController', ['$scope', '$rootScope', '
   $scope.enterQuery = (query) ->
     $scope.setList(query, 0) if allowQuery(query)
 
+  $scope.updateCurrentlyPlaying = () ->
+    $scope.currentlyPlaying = $scope.currentPlaylist.tracks[$scope.audioPlayer.currentTrack]
+
+
   $scope.setTrackUrl = (track) ->
-    if $scope.lastListLoaded != $scope.currentList
-      $scope.audioPlayer.load($scope.currentTracks, false)
+    if $scope.lastListLoaded != $scope.currentList || $scope.currentPlaylist.name != $scope.currentList
+      $scope.currentPlaylist.name = $scope.currentList
+      $scope.currentPlaylist.tracks = $scope.currentTracks
+      $scope.audioPlayer.load($scope.currentPlaylist.tracks, false)
       $scope.lastListLoaded = $scope.currentList
 
     index = 0
-    for listTrack, i in $scope.currentTracks
-      index = i if track.id == listTrack.trackData.id
+    for listTrack, i in $scope.currentPlaylist.tracks
+      index = i if track.download_url == listTrack.trackData.download_url
 
     $scope.audioPlayer.pause()
     $scope.audioPlayer.play(index, false)
+    $scope.currentlyPlaying = $scope.currentPlaylist.tracks[index]
 
   $scope.setList = (listName, page = 0) ->
     unless $scope.loadingList
@@ -130,7 +147,6 @@ angular.module('hypem').controller 'HypemController', ['$scope', '$rootScope', '
       setupList(listName)
       $scope.loadingList = ''
 
-
   $scope.addToPlaylist = (track) ->
     console.log track
 
@@ -148,5 +164,12 @@ angular.module('hypem').controller 'HypemController', ['$scope', '$rootScope', '
 
   $scope.setVolume = (newVolume) ->
     $scope.audioPlayer.setVolume(newVolume) if newVolume > 0 && newVolume <= 1
+
+  $scope.toggleAddPlaylist = () ->
+    $scope.showAddPlaylistInput = !$scope.showAddPlaylistInput
+
+  $scope.createPlaylist = (playlistName) ->
+    hypemPlaylistService.create({ name: playlistName }).then (data) ->
+      console.log data
 
 ]

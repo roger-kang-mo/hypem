@@ -5,5 +5,6 @@ hypemApp = angular.module('hypem', [
   'ngResource',
   'infinite-scroll',
   'mediaPlayer'
+  # 'ui.select2'
 ])
 

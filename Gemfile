@@ -14,6 +14,7 @@ gem 'angular-rails-templates'
 gem 'faker'
 gem 'font-awesome-rails'
 gem 'ransack'
+gem 'jbuilder'
 
 # Gems used only for assets and not required
 # in production environments by default.
