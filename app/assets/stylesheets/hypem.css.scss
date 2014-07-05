@@ -1,3 +1,23 @@
+nav#currently-playing {
+  padding: 15px;
+  width: 90%;
+  span {
+    margin-left: 13%;
+  }
+}
+
+#nav-player-controls {
+  padding-left: 5%;
+
+  span a {
+    // Make this shit purple
+    // color: #000;
+    color: #428bca;
+    padding:5px 10px;
+    font-size: 1.5em;
+  }
+}
+
 [class^="icon-"], [class*=" icon-"] {
     display: inline-block;
     width: 100%;
@@ -7,17 +27,19 @@ td a i {
     text-align:center;
 }
 
-#page-wrapper {
-  margin-top: 60px;
-}
+// #page-wrapper {
+//   margin-top: 60px;
+// }
 
 .inverse-text {
   color: #fff;
 }
 .progress {
-  -webkit-border-radius: 20px;
-  -moz-border-radius: 20px;
-  border-radius: 20px;
+//   -webkit-border-radius: 20px;
+//   -moz-border-radius: 20px;
+//   border-radius: 20px;
+  background-color: #ccc;
+  margin: 5px;
 }
 
 input#query[type="text"] {
@@ -43,13 +65,13 @@ input#query[type="text"] {
   transition: all 0.7s ease 0s;
 }
 
-div.nav-col {
-  padding: 10px;
-}
+// div.nav-col {
+//   padding: 10px;
+// }
 
-.lower-nav .progress{
-  margin-top: 20px;
-}
+// .lower-nav .progress{
+//   margin-top: 20px;
+// }
 
 .query-form {
   margin-top: 8px;
@@ -73,13 +95,13 @@ div.nav-col {
 }
 
 #hypem-main {
-  .hypem-nav {
-    div div {
-      .visible-xs.side-toggle {
-        font-size: 25px;
-      }
-    }
-  }
+  // .hypem-nav {
+  //   div div {
+  //     .visible-xs.side-toggle {
+  //       font-size: 25px;
+  //     }
+  //   }
+  // }
 
   #hypem-body {
     .row .main ul .track {
@@ -113,13 +135,13 @@ input.add-playlist-input {
   background: #428bca;
   width: 9em;
   color: #fff;
-  margin-left: 25px;
+  // margin-left: 25px;
   margin-right: 20px;
   // margin-left: 20px;
-  margin: 10px 15px;
+  margin: 10px 35px;
   position: relative;
 }
 
-.tooltip {
-  top: 10px !important;
-}
+// .tooltip {
+//   top: 10px !important;
+// }

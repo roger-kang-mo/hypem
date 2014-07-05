@@ -10,8 +10,7 @@
  *
  *= require_self
  *= require bootstrap.min
- *= require styles
- *= require bootstrap-theme.min
+ *= require sb-admin.css
  *= require font-awesome
  *= require_tree .
  */

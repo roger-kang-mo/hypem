@@ -37,16 +37,6 @@ angular.module('hypem').controller 'HypemController', ['$scope', '$rootScope', '
       for playlist in playlists
         $scope.trackLists[playlist.name] = { tracks: [], fakeName: playlist.name, fetched: false,  page: 0, type: "playlist", id: playlist.id}
 
-  setupList = (listName) ->
-    $scope.currentList = listName
-    $scope.currentTracks = $scope.trackLists[listName]['tracks']
-    $scope.lastListLoaded = listName
-
-    playlistLength = $scope.currentPlaylist.tracks.length
-    if (playlistLength && !$scope.currentPlaylist.tracks[0].src) || !playlistLength
-      $scope.currentPlaylist.name = $scope.currentList
-      $scope.currentPlaylist.tracks = $scope.currentTracks
-
   allowQuery = (query) ->
     $scope.queries[query] ||= 0
     queriedNum = $scope.queries[query]
@@ -132,6 +122,16 @@ angular.module('hypem').controller 'HypemController', ['$scope', '$rootScope', '
     $scope.audioPlayer.pause()
     $scope.audioPlayer.play(index, false)
     $scope.currentlyPlaying = $scope.currentPlaylist.tracks[index]
+
+  setupList = (listName) ->
+    $scope.currentList = listName
+    $scope.currentTracks = $scope.trackLists[listName]['tracks']
+    $scope.lastListLoaded = listName
+
+    playlistLength = $scope.currentPlaylist.tracks.length
+    if (playlistLength && !$scope.currentPlaylist.tracks[0].src) || !playlistLength
+      $scope.currentPlaylist.name = $scope.currentList
+      $scope.currentPlaylist.tracks = $scope.currentTracks
 
   $scope.setList = (listName, obj, page = 0) ->
     unless $scope.loadingList
@@ -227,6 +227,8 @@ angular.module('hypem').controller 'HypemController', ['$scope', '$rootScope', '
       $scope.trackLists[name].fakeName = name
       $scope.trackLists[name].type = 'playlist'
       $scope.trackLists[name].tracks = []
+      toggleAddPlaylist()
+      $scope.options.playlistName = ''
 
 
 ]

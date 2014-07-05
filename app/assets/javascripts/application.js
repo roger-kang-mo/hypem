@@ -17,6 +17,8 @@
 //= require bootstrap.min
 //= require angular-ui-router.min
 //= require ui-bootstrap-tpls-0.11.0.min
+//= require jquery.metisMenu
+//= require sb-admin
 //= require angular-rails-templates
 //= require ng-infinite-scroll.min
 //= require angular-media-player.min
