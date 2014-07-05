@@ -15,6 +15,7 @@ gem 'faker'
 gem 'font-awesome-rails'
 gem 'ransack'
 gem 'jbuilder'
+gem 'underscore-rails'
 
 # Gems used only for assets and not required
 # in production environments by default.

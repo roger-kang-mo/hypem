@@ -63,7 +63,7 @@ module HypemHelper
       return_data[:error] = "Couldn't retrieve songs. User may not exist."
     end
 
-    return_data
+    return_data.page(page).per(25)
   end
 
   def get_songs_for_page(url)

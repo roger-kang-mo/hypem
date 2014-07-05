@@ -13,9 +13,14 @@ angular.module('hypem').service 'hypemPlaylistService', ['$http', ($http) ->
     $http.get('/hypem_playlists.json')
 
   create: (data) ->
-    $http.post('/hypem_playlists.json', { params: { playlist: data }})
+    $http.post('/hypem_playlists.json', { playlist: data })
 
-  show: (id) ->
-    $http.get('/hypem_playlists.json', { params: { id: id }})
+  show: (id, seed, page = 0) ->
+    $http.get("/hypem_playlists/#{id}.json", { params: { seed: seed, page: page }})
+]
+
+angular.module('hypem').service 'hypemTrackService', ['$http', ($http) ->
+  addToPlaylist: (id, options) ->
+    $http.post("/hypem_tracks/#{id}/add_to_playlist", options)
 ]
 

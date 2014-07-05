@@ -61,7 +61,7 @@
               <input type="submit" class="hidden">
             </form>
           </li>
-          <li ng-repeat="(listName, values) in trackLists" ng-class="{active: currentList == listName, disabled: loadingList == listName}" ng-click="setList(listName)">
+          <li ng-repeat="(listName, values) in trackLists" ng-class="{active: currentList == listName, disabled: loadingList == listName}" ng-click="setList(listName, values, 0)">
             <a href>{{values['fakeName'] }}
               <span class="mini-text" ng-show="listName == 'hypemmain' || values['showUsername'] == true">({{listName}})</span>
               <i ng-show="loadingList == listName" class="fa fa-cog fa-spin"></i>
@@ -76,6 +76,7 @@
             <div class="col-md-8">
               <h3 class="lead">{{track.trackData.song}}</h3>
               <h4 class="lead">{{track.trackData.artist}}</h4>
+              <span class="hidden">{{track.trackData.download_url}}</span>
             </div>
             <div class="col-md-4">
               <div class="pull-right">

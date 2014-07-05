@@ -1,0 +1,1 @@
+json.partial! 'hypem_track', hypem_track: @hypem_track

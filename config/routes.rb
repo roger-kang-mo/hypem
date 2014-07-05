@@ -11,4 +11,5 @@ Hypem::Application.routes.draw do
   resources :hypem_tracks
 
   get '/:username' => 'hypem#index'
+  post '/hypem_tracks/:id/add_to_playlist' => 'hypem_tracks#add_to_playlist'
 end

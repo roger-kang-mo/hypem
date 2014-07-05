@@ -1,9 +1,7 @@
-<!-- <div class="popover-title"></div> -->
-<div class="popover-content"
-  <select class="form-control">
-    <option ng-repeat="values in trackLists | onlyPlaylists">{{values['fakeName']}}</option>
+<div class="popover-content">
+  <select ng-model="selectedPlaylist" ng-options="value['fakeName'] for value in trackLists | onlyPlaylists:this" class="form-control">
   </select>
   <div class="popover-footer">
-    <p class="pull-right"><a href class="btn btn-default js-close-popover">cancel</a ><a class="btn btn-primary btn-small" role="button">Ok</a></p>
+    <p class="pull-right"><a href class="btn btn-default js-close-popover">cancel</a ><a class="btn btn-primary btn-small js-close-popover" role="button" ng-click="addToPlaylist(track, selectedPlaylist)">Ok</a></p>
   </div>
 </div>

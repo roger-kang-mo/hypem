@@ -20,6 +20,7 @@
 //= require angular-rails-templates
 //= require ng-infinite-scroll.min
 //= require angular-media-player.min
+//= require underscore
 //= require_tree ./templates
 //= require app
 //= require config
