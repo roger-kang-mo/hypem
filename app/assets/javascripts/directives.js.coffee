@@ -11,11 +11,12 @@
 
 #     return
 
-angular.module("hypem").directive "focusInput", ($timeout) ->
+angular.module("hypem").directive "focusInput", [ '$timeout', ($timeout) ->
   link: (scope, element, attrs) ->
     element.bind "click", ->
       $timeout ->
         element.next('form').children('input').focus()
+]
 
 
 angular.module('hypem').directive "hmPopover", ['$compile', '$templateCache', ($compile, $templateCache) ->
