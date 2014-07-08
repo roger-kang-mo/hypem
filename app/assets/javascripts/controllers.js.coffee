@@ -1,6 +1,6 @@
 angular.module('hypem').controller 'HypemController', ['$scope', '$rootScope', 'hypemService', 'hypemUserService', 'hypemPlaylistService', 'hypemTrackService', '$sce', '$modal', ($scope, $rootScope, hypemService, hypemUserService, hypemPlaylistService, hypemTrackService, $sce, $modal) ->
   $scope.init = (seed) ->
-    $scope.trackLists = { hypemmain: { tracks: [], fakeName: 'Library', page: 0, finished: false, playing: false, type: 'playlist' }}
+    $scope.trackLists = { hypemmain: { tracks: [], fakeName: 'Library', page: 0, finished: false, playing: false, type: 'library' }}
     $scope.loadingList = ''
     $scope.currentList = "hypemmain"
     $scope.queryText = ''
@@ -202,10 +202,10 @@ angular.module('hypem').controller 'HypemController', ['$scope', '$rootScope', '
       $scope.trackLists[$scope.currentList].page = currentPage += 1
 
     #So I can use legacy endpoint for now
-      if currentList.type == 'playlist' && currentList.fakeName != "Library"
-        queryPlaylist(currentList, currentPage)
-      else
-        $scope.query($scope.currentList, currentPage)
+    if currentList.type == 'playlist' && currentList.fakeName != "Library"
+      queryPlaylist(currentList, currentPage)
+    else
+      $scope.query($scope.currentList, currentPage)
 
   $scope.seekPercentage = ($event) ->
     percentage = ($event.offsetX / $event.target.offsetWidth)
@@ -227,7 +227,7 @@ angular.module('hypem').controller 'HypemController', ['$scope', '$rootScope', '
       $scope.trackLists[name].fakeName = name
       $scope.trackLists[name].type = 'playlist'
       $scope.trackLists[name].tracks = []
-      toggleAddPlaylist()
+      $scope.toggleAddPlaylist()
       $scope.options.playlistName = ''
 
 

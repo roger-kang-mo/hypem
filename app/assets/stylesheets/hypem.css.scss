@@ -6,6 +6,10 @@ nav#currently-playing {
   }
 }
 
+.list-element.active{
+  background-color: #CACEFF;
+}
+
 #nav-player-controls {
   padding-left: 5%;
 
@@ -126,6 +130,31 @@ input#query[type="text"] {
           color: #333;
         }
       }
+    }
+  }
+}
+
+.track {
+  overflow: hidden;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+
+  &:hover {
+    background-color: #d9edf7;
+  }
+
+  &.playing {
+    background-color: #dff0d8;
+  }
+
+  div div span a i {
+    color: #ccc;
+    padding: 10px;
+    padding-top: 35px;
+    font-size:50px;
+
+    &:hover {
+      color: #333;
     }
   }
 }

@@ -21,14 +21,15 @@
       <div class="sidebar-collapse">
         <ul class="nav" id="side-menu">
           <li class="sidebar-search">
-            <div class="input-group custom-search-form">
-                <input type="text" class="form-control" placeholder="Search...">
-                <span class="input-group-btn">
+            <form ng-submit="enterQuery(queryText)" class="input-group custom-search-form">
+              <input type="text" ng-model="queryText" class="form-control" placeholder="Search...">
+              <input type="submit" class="hidden">
+              <span class="input-group-btn">
                 <button class="btn btn-default" type="button">
                     <i class="fa fa-search"></i>
                 </button>
-            </span>
-            </div>
+              </span>
+            </form>
           </li>
           <li>
             <audio media-player="audioPlayer" data-playlist="currentPlaylist.tracks">
@@ -52,7 +53,7 @@
 
             <span><a href><i class="fa fa-volume-up" ng-click="setVolume(audioPlayer.volume + 0.1)"></i></a></span>
           </li>
-          <li>
+          <li class="list-element" ng-class="{active: currentList == 'hypemmain', disabled: loadingList == 'hypemmain'}">
             <a href ng-click="setList('hypemmain')">
               <i class="fa fa-dashboard fa-fw"></i> Library
               <i ng-show="loadingList == 'hypemmain'" class="fa fa-cog fa-spin"></i>
@@ -62,7 +63,10 @@
           <li>
             <a href="#"><i class="fa fa-user fa-fw"></i> Users<span class="fa arrow"></span></a>
             <ul class="nav nav-second-level">
-                <li ng-repeat="(listName, values) in trackLists | filterByType: 'user'" ng-class="{active: currentList == listName, disabled: loadingList == listName}" ng-click="setList(listName, values, 0)">
+                <li ng-repeat="(listName, values) in trackLists | filterByType: 'user'"
+                    ng-class="{active: currentList == listName, disabled: loadingList == listName}"
+                    ng-click="setList(listName, values, 0)"
+                    class="list-element">
                 <a href>{{values['fakeName'] }}
                   <span class="mini-text" ng-show="values['showUsername'] == true">({{listName}})</span>
                   <i ng-show="loadingList == listName" class="fa fa-cog fa-spin"></i>
@@ -80,7 +84,10 @@
                     <input type="submit" class="hidden">
                   </form>
                 </li>
-                <li ng-repeat="(listName, values) in trackLists | filterByType: 'playlist'" ng-class="{active: currentList == listName, disabled: loadingList == listName}" ng-click="setList(listName, values, 0)">
+                <li ng-repeat="(listName, values) in trackLists | filterByType: 'playlist'" 
+                    ng-class="{active: currentList == listName, disabled: loadingList == listName}"
+                    ng-click="setList(listName, values, 0)"
+                    class="list-element">
                 <a href>{{values['fakeName'] }}
                   <span class="mini-text" ng-show="listName == 'hypemmain' || values['showUsername'] == true">({{listName}})</span>
                   <i ng-show="loadingList == listName" class="fa fa-cog fa-spin"></i>
@@ -94,7 +101,7 @@
   </nav>
 
   <div id="page-wrapper">
-    <div class="row">
+    <!-- <div class="row"> -->
       <div class="col-lg-12" infinite-scroll="paginateMe()">
         <ul>
           <div ng-repeat="track in currentTracks" class="track" ng-class="{ playing: track.trackData.download_url == currentlyPlaying.trackData.download_url }">
@@ -120,10 +127,17 @@
               </div>
             </div>
           </div>
-          <div colspan="5" ng-show="currentTracks.length == 0">Zero Tracks Found! User doesn't have any or we hit an error. ¯\_(ツ)_/¯</div>
+          <div ng-show="currentTracks.length == 0">
+            <div>
+              <h1>¯\_(ツ)_/¯</h1>
+            </div>
+            <div>
+              <h1>Doesn't look like there's anything here!</h1>
+            </div>
+          </div>
         </ul>
       </div>
-    </div>
+    <!-- </div> -->
   </div>
 
 </div>
