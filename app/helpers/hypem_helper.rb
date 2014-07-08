@@ -38,7 +38,7 @@ module HypemHelper
     random_name
   end
 
-  def get_songs_for_user(user)
+  def get_songs_for_user(user, page = 0)
     return_data = {}
     @user = user
     @username = user.username
@@ -63,7 +63,7 @@ module HypemHelper
       return_data[:error] = "Couldn't retrieve songs. User may not exist."
     end
 
-    return_data.page(page).per(25)
+    return_data
   end
 
   def get_songs_for_page(url)

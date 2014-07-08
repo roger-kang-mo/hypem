@@ -40,7 +40,7 @@ angular.module('hypem').controller 'HypemController', ['$scope', '$rootScope', '
   allowQuery = (query) ->
     $scope.queries[query] ||= 0
     queriedNum = $scope.queries[query]
-    if (!$scope.options.forceCheck && queriedNum >= 2) || (!$scope.options.forceCheck && $scope.trackLists[query].finished)
+    if $scope.trackLists[query] && ((!$scope.options.forceCheck && queriedNum >= 2) || (!$scope.options.forceCheck && $scope.trackLists[query] && $scope.trackLists[query].finished))
       showForceCheckModal()
       return false
     else

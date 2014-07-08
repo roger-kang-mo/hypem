@@ -16,6 +16,7 @@ class HypemController < ApplicationController
 
   def get_tracks
     list_name = params[:query]
+    page = params[:page] || 0
 
     if list_name == "hypemmain"
       @tracks = paginate_tracks(list_name, params[:page])
@@ -23,7 +24,13 @@ class HypemController < ApplicationController
       user = HypemUser.where('username = ? OR fake_name = ?', list_name, list_name).first
       user = HypemUser.create({username: list_name, fake_name: get_random_name}) unless user
       # binding.pry
-      @tracks = params[:force_check] == "false" ? paginate_tracks(user, params[:page]) : get_songs_for_user(user)
+      if params[:force_check] == "false" && user.hypem_tracks.count > 0
+        @tracks = paginate_tracks(user, params[:page])
+      else
+        get_songs_for_user(user)
+        @tracks = user.hypem_tracks.page(page).per(25)
+      end
+
       @fake_name = user.fake_name
 
       @finished = @tracks.length == 0 ? true : false
