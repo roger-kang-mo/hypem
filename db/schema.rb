@@ -11,7 +11,13 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140610044134) do
+ActiveRecord::Schema.define(:version => 20140828053308) do
+
+  create_table "emails", :force => true do |t|
+    t.string "email"
+    t.string "plan"
+    t.string "omment"
+  end
 
   create_table "hypem_playlists", :force => true do |t|
     t.text     "name"

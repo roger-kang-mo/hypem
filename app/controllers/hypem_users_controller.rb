@@ -5,6 +5,8 @@ class HypemUsersController < ApplicationController
   def index
     @users = HypemUser.all
 
+    @users
+
     respond_with @users
   end
 end

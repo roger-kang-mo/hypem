@@ -16,11 +16,12 @@ class HypemController < ApplicationController
 
   def get_tracks
     list_name = params[:query]
-    page = params[:page] || 0
 
     if list_name == "hypemmain"
+      binding.pry
       @tracks = paginate_tracks(list_name, params[:page])
     elsif list_name
+      page = params[:page] || 0
       user = HypemUser.where('username = ? OR fake_name = ?', list_name, list_name).first
       user = HypemUser.create({username: list_name, fake_name: get_random_name}) unless user
       # binding.pry
@@ -43,13 +44,21 @@ class HypemController < ApplicationController
     end
   end
 
+  def add_email
+    email = params[:email]
+    plan = params[:plan]
+    omment = params[:omment]
+    @email = Email.where(email: email, plan: plan, omment: omment).first
+
+    @email = Email.create(email: email, plan: plan, omment: omment) unless @email
+  end
+
   private
 
   def paginate_tracks(user, page = 0)
     params[:seed] ||= Random.new_seed
     srand params[:seed].to_i
     tracks = []
-    # binding.pry
     if user == "hypemmain"
       tracks = Kaminari.paginate_array(HypemTrack.all.shuffle).page(page).per(25)
     else
