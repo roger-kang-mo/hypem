@@ -12,5 +12,5 @@ Hypem::Application.routes.draw do
 
   get '/:username' => 'hypem#index'
   post '/hypem_tracks/:id/add_to_playlist' => 'hypem_tracks#add_to_playlist'
-  get '/add_email' => 'hypem#add_email'
+  match '/add_email' => 'emails#add_email'
 end
