@@ -7,10 +7,10 @@ class EmailsController < ApplicationController
   def add_email
     email = params[:email]
     plan = params[:plan]
-    omment = params[:omment]
-    @email = Email.where(email: email, plan: plan, omment: omment).first
+    comment = params[:comment]
+    @email = Email.where(email: email, plan: plan, comment: comment).first
 
-    @email = Email.create(email: email, plan: plan, omment: omment) unless @email
+    @email = Email.create(email: email, plan: plan, comment: comment) unless @email
     respond_with @email
   end
 
