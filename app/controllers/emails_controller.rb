@@ -16,7 +16,7 @@ class EmailsController < ApplicationController
 
   private
   def allow_shit
-    headers['Access-Control-Allow-Origin'] = '0.0.0.0:8000'
+    headers['Access-Control-Allow-Origin'] = '*'
     headers['Access-Control-Allow-Methods'] = 'POST, GET, OPTIONS'
     headers['Access-Control-Request-Method'] = '*'
     headers['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
