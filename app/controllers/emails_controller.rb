@@ -5,7 +5,6 @@ class EmailsController < ApplicationController
   before_filter :allow_shit
 
   def add_email
-    binding.pry
     email = params[:email]
     plan = params[:plan]
     omment = params[:omment]
