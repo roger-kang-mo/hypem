@@ -1,1 +1,1 @@
-json.extract! email, :id, :email, :plan, :omment
+json.extract! email, :id, :email, :plan, :comment
