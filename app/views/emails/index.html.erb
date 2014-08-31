@@ -1,0 +1,18 @@
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Email</th>
+      <th>plan</th>
+      <th>comment</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @emails.each do |email| %>
+      <tr>
+        <td><%= email.email %></td>
+        <td><%= email.plan %></td>
+        <td><%= email.comment %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
