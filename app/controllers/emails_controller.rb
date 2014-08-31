@@ -1,8 +1,14 @@
 class EmailsController < ApplicationController
 
-  respond_to :json
-
   before_filter :allow_shit
+
+  def index
+    @emails = Email.all
+
+    respond_to do |format|
+      format.html
+    end
+  end
 
   def add_email
     email = params[:email]
@@ -11,7 +17,9 @@ class EmailsController < ApplicationController
     @email = Email.where(email: email, plan: plan, comment: comment).first
 
     @email = Email.create(email: email, plan: plan, comment: comment) unless @email
-    respond_with @email
+    respond_to do |format|
+      format.json { render :json => @email }
+    end
   end
 
   private
