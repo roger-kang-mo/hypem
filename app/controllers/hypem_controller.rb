@@ -18,7 +18,7 @@ class HypemController < ApplicationController
     list_name = params[:query]
 
     if list_name == "hypemmain"
-      binding.pry
+      #binding.pry
       @tracks = paginate_tracks(list_name, params[:page])
     elsif list_name
       page = params[:page] || 0
